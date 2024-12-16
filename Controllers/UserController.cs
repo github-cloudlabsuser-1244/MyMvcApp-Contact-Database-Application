@@ -6,6 +6,18 @@ namespace MyMvcApp.Controllers;
 
 public class UserController : Controller
 {
+    // GET: User/Search
+    public ActionResult Search(string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return View("Index",new List<User>());
+        }
+
+        var results = userlist.Where(u => u.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) || 
+                                          u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+        return View("Index",results);
+    }
     public static System.Collections.Generic.List<User> userlist = new System.Collections.Generic.List<User>();
 
         // GET: User
