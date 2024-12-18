@@ -1,0 +1,76 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "appServicePlanName": {
+        "type": "string",
+        "defaultValue": "myAppServicePlan",
+        "metadata": {
+          "description": "Name of the App Service Plan"
+        }
+      },
+      "webAppName": {
+        "type": "string",
+        "defaultValue": "myWebApp",
+        "metadata": {
+          "description": "Name of the Web App"
+        }
+      },
+      "sku": {
+        "type": "string",
+        "defaultValue": "F1",
+        "allowedValues": [
+          "F1",
+          "D1",
+          "B1",
+          "B2",
+          "B3",
+          "S1",
+          "S2",
+          "S3",
+          "P1v2",
+          "P2v2",
+          "P3v2"
+        ],
+        "metadata": {
+          "description": "The pricing tier for the App Service Plan"
+        }
+      }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2021-02-01",
+        "name": "[parameters('appServicePlanName')]",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "[parameters('sku')]"
+        },
+        "properties": {
+          "reserved": false
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2021-02-01",
+        "name": "[parameters('webAppName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+        ],
+        "properties": {
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+        }
+      }
+    ],
+    "outputs": {
+      "webAppName": {
+        "type": "string",
+        "value": "[parameters('webAppName')]"
+      },
+      "webAppUrl": {
+        "type": "string",
+        "value": "[concat('https://', parameters('webAppName'), '.azurewebsites.net')]"
+      }
+    }
+  }
