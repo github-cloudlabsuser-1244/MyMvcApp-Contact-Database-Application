@@ -15,6 +15,22 @@ public class UserController : Controller
             return View(userlist);
         }
 
+    // GET: User with search functionality
+    public ActionResult Search(string searchString)
+    {
+        var users = from u in userlist
+                    select u;
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            users = users.Where(u => u.Name.Contains(searchString) || u.Email.Contains(searchString));
+        }
+
+        ViewBag.CurrentFilter = searchString;
+
+        return View("Index", users.ToList());
+    }
+
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
@@ -46,7 +62,7 @@ public class UserController : Controller
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (string.IsNullOrEmpty(user.Email) || !emailRegex.IsMatch(user.Email))
             {
-                ModelState.AddModelError("Email", "Invalid email format. Please enter a valid email address.");
+                ModelState.AddModelError("Email", "Invalid email format... Please enter a valid email address.");
             }
 
             // Check if email already exists
@@ -58,6 +74,7 @@ public class UserController : Controller
 
             if (ModelState.IsValid)
             {
+                user.Id = userlist.Any() ? userlist.Max(u => u.Id) + 1 : 1;
                 userlist.Add(user);
                 return RedirectToAction(nameof(Index));
             }
