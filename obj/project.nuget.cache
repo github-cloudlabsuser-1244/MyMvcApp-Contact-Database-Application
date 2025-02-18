@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1xZVYgAYTUk=",
+  "dgSpecHash": "N/pM4iuyRnU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\azureuser\\Desktop\\Repos\\MyMvcApp-Contact-Database-Application\\MyMvcApp.csproj",
+  "projectFilePath": "c:\\Users\\azureuser\\Desktop\\Repos\\MyMvcApp-Contact-Database-Application\\MyMvcApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\azureuser\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\azureuser\\.nuget\\packages\\microsoft.codecoverage\\17.13.0\\microsoft.codecoverage.17.13.0.nupkg.sha512",
